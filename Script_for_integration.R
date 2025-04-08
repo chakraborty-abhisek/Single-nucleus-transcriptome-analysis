@@ -101,8 +101,7 @@ new_gene_ids_australiana <- new_gene_ids_australiana[valid_genes_australiana]
 rownames(filtered_Waus_snRNA_merged) <- new_gene_ids_australiana
 
 ---------------
-
-#Integrated data set of W. microscopica and W. australiana
+#Normal Data Integration
 wmic_waus <- merge(filtered_Wmic_snRNA_merged, 
               y = filtered_Waus_snRNA_merged, 
               add.cell.ids = c("Wmic", "Waus"), 
@@ -121,7 +120,8 @@ wmic_waus <- FindClusters(wmic_waus, resolution = 0.5)
 wmic_waus <- RunUMAP(wmic_waus, dims = 1:15)
 DimPlot(wmic_waus, reduction = "umap", group.by="orig.ident")
 
-#Batch correction
+---------------
+#Batch correction and integration
 merged_wolffia_list <- lapply(c(filtered_Wmic_snRNA_merged, filtered_Waus_snRNA_merged1), function(x) {
   x <- NormalizeData(x)
   x <- FindVariableFeatures(x, selection.method = "vst", nfeatures = 2000)
